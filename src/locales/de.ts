@@ -1,0 +1,118 @@
+export const de = {
+  // Navigation
+  nav: {
+    dashboard: 'Dashboard',
+    users: 'Benutzer',
+    analytics: 'Analytik',
+    settings: 'Einstellungen',
+    profile: 'Profil',
+    logout: 'Abmelden',
+    adminPanel: 'Admin-Panel',
+  },
+  
+  // Authentication
+  auth: {
+    login: 'Anmelden',
+    email: 'E-Mail',
+    password: 'Passwort',
+    rememberMe: 'Angemeldet bleiben',
+    loginToAdminPanel: 'Am Admin-Panel anmelden',
+    enterEmail: 'Geben Sie Ihre E-Mail ein',
+    enterPassword: 'Geben Sie Ihr Passwort ein',
+    loginSuccess: 'Anmeldung erfolgreich!',
+    loginFailed: 'Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.',
+    invalidCredentials: 'Ungültige E-Mail oder Passwort',
+    demoAccounts: 'Demo-Konten',
+    loginAsAdmin: 'Als Administrator anmelden',
+    loginAsEditor: 'Als Editor anmelden',
+    loginAsViewer: 'Als Betrachter anmelden',
+    demoCredentials: 'Demo-Anmeldedaten',
+  },
+  
+  // Dashboard
+  dashboard: {
+    welcome: 'Willkommen zurück',
+    totalUsers: 'Gesamte Benutzer',
+    orders: 'Bestellungen',
+    revenue: 'Umsatz',
+    pageViews: 'Seitenaufrufe',
+    recentActivity: 'Letzte Aktivität',
+    quickActions: 'Schnellaktionen',
+    createNewUser: 'Neuen Benutzer erstellen',
+    viewReports: 'Berichte anzeigen',
+    manageSettings: 'Einstellungen verwalten',
+    noRecentActivity: 'Keine aktuelle Aktivität anzuzeigen.',
+  },
+  
+  // Users
+  users: {
+    userManagement: 'Benutzerverwaltung',
+    manageUsersPermissions: 'Benutzer und ihre Berechtigungen verwalten (nur Admin)',
+    addNewUser: 'Neuen Benutzer hinzufügen',
+    user: 'Benutzer',
+    role: 'Rolle',
+    status: 'Status',
+    actions: 'Aktionen',
+    edit: 'Bearbeiten',
+    delete: 'Löschen',
+    active: 'AKTIV',
+    inactive: 'INAKTIV',
+    admin: 'ADMIN',
+    editor: 'EDITOR',
+    viewer: 'BETRACHTER',
+  },
+  
+  // Analytics
+  analytics: {
+    analyticsDashboard: 'Analytik-Dashboard',
+    viewAnalyticsMetrics: 'Analytik- und Leistungsmetriken anzeigen',
+    availableTo: 'Verfügbar für: Admin, Editor, Betrachter',
+    currentUserRole: 'Aktuelle Benutzerrolle',
+    totalRevenue: 'Gesamtumsatz',
+    activeUsers: 'Aktive Benutzer',
+    conversionRate: 'Konversionsrate',
+    goal: 'Ziel',
+    performanceMetrics: 'Leistungsmetriken',
+    trafficSources: 'Traffic-Quellen',
+    metric: 'Metrik',
+    value: 'Wert',
+    change: 'Änderung',
+    pageViews: 'Seitenaufrufe',
+    uniqueVisitors: 'Eindeutige Besucher',
+    bounceRate: 'Absprungrate',
+    sessionDuration: 'Sitzungsdauer',
+    direct: 'Direkt',
+    search: 'Suche',
+    social: 'Social',
+  },
+  
+  // Common
+  common: {
+    loading: 'Laden...',
+    error: 'Fehler',
+    success: 'Erfolg',
+    cancel: 'Abbrechen',
+    save: 'Speichern',
+    delete: 'Löschen',
+    edit: 'Bearbeiten',
+    add: 'Hinzufügen',
+    search: 'Suchen',
+    filter: 'Filtern',
+    export: 'Exportieren',
+    import: 'Importieren',
+    refresh: 'Aktualisieren',
+    backHome: 'Zurück zur Startseite',
+    goBack: 'Zurück',
+    notFound: 'Seite nicht gefunden',
+    notFoundMessage: 'Entschuldigung, die von Ihnen besuchte Seite existiert nicht.',
+  },
+  
+  // Validation
+  validation: {
+    required: 'Dieses Feld ist erforderlich',
+    emailRequired: 'Bitte geben Sie Ihre E-Mail ein!',
+    emailInvalid: 'Bitte geben Sie eine gültige E-Mail ein!',
+    passwordRequired: 'Bitte geben Sie Ihr Passwort ein!',
+    passwordMinLength: 'Das Passwort muss mindestens 6 Zeichen lang sein!',
+  },
+};

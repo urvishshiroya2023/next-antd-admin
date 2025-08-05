@@ -1,0 +1,118 @@
+export const hi = {
+  // Navigation
+  nav: {
+    dashboard: 'डैशबोर्ड',
+    users: 'उपयोगकर्ता',
+    analytics: 'विश्लेषण',
+    settings: 'सेटिंग्स',
+    profile: 'प्रोफाइल',
+    logout: 'लॉग आउट',
+    adminPanel: 'एडमिन पैनल',
+  },
+  
+  // Authentication
+  auth: {
+    login: 'लॉगिन',
+    email: 'ईमेल',
+    password: 'पासवर्ड',
+    rememberMe: 'मुझे याद रखें',
+    loginToAdminPanel: 'एडमिन पैनल में लॉगिन करें',
+    enterEmail: 'अपना ईमेल दर्ज करें',
+    enterPassword: 'अपना पासवर्ड दर्ज करें',
+    loginSuccess: 'लॉगिन सफल!',
+    loginFailed: 'लॉगिन असफल। कृपया पुनः प्रयास करें।',
+    invalidCredentials: 'अमान्य ईमेल या पासवर्ड',
+    demoAccounts: 'डेमो खाते',
+    loginAsAdmin: 'एडमिन के रूप में लॉगिन करें',
+    loginAsEditor: 'एडिटर के रूप में लॉगिन करें',
+    loginAsViewer: 'व्यूअर के रूप में लॉगिन करें',
+    demoCredentials: 'डेमो क्रेडेंशियल्स',
+  },
+  
+  // Dashboard
+  dashboard: {
+    welcome: 'वापसी पर स्वागत है',
+    totalUsers: 'कुल उपयोगकर्ता',
+    orders: 'ऑर्डर',
+    revenue: 'राजस्व',
+    pageViews: 'पेज व्यू',
+    recentActivity: 'हाल की गतिविधि',
+    quickActions: 'त्वरित कार्य',
+    createNewUser: 'नया उपयोगकर्ता बनाएं',
+    viewReports: 'रिपोर्ट देखें',
+    manageSettings: 'सेटिंग्स प्रबंधित करें',
+    noRecentActivity: 'प्रदर्शित करने के लिए कोई हाल की गतिविधि नहीं।',
+  },
+  
+  // Users
+  users: {
+    userManagement: 'उपयोगकर्ता प्रबंधन',
+    manageUsersPermissions: 'उपयोगकर्ताओं और उनकी अनुमतियों का प्रबंधन करें (केवल एडमिन)',
+    addNewUser: 'नया उपयोगकर्ता जोड़ें',
+    user: 'उपयोगकर्ता',
+    role: 'भूमिका',
+    status: 'स्थिति',
+    actions: 'कार्य',
+    edit: 'संपादित करें',
+    delete: 'हटाएं',
+    active: 'सक्रिय',
+    inactive: 'निष्क्रिय',
+    admin: 'एडमिन',
+    editor: 'एडिटर',
+    viewer: 'व्यूअर',
+  },
+  
+  // Analytics
+  analytics: {
+    analyticsDashboard: 'विश्लेषण डैशबोर्ड',
+    viewAnalyticsMetrics: 'विश्लेषण और प्रदर्शन मेट्रिक्स देखें',
+    availableTo: 'उपलब्ध: एडमिन, एडिटर, व्यूअर',
+    currentUserRole: 'वर्तमान उपयोगकर्ता भूमिका',
+    totalRevenue: 'कुल राजस्व',
+    activeUsers: 'सक्रिय उपयोगकर्ता',
+    conversionRate: 'रूपांतरण दर',
+    goal: 'लक्ष्य',
+    performanceMetrics: 'प्रदर्शन मेट्रिक्स',
+    trafficSources: 'ट्रैफिक स्रोत',
+    metric: 'मेट्रिक',
+    value: 'मूल्य',
+    change: 'परिवर्तन',
+    pageViews: 'पेज व्यू',
+    uniqueVisitors: 'अद्वितीय विज़िटर',
+    bounceRate: 'बाउंस दर',
+    sessionDuration: 'सत्र अवधि',
+    direct: 'प्रत्यक्ष',
+    search: 'खोज',
+    social: 'सामाजिक',
+  },
+  
+  // Common
+  common: {
+    loading: 'लोड हो रहा है...',
+    error: 'त्रुटि',
+    success: 'सफलता',
+    cancel: 'रद्द करें',
+    save: 'सहेजें',
+    delete: 'हटाएं',
+    edit: 'संपादित करें',
+    add: 'जोड़ें',
+    search: 'खोजें',
+    filter: 'फिल्टर',
+    export: 'निर्यात',
+    import: 'आयात',
+    refresh: 'रीफ्रेश',
+    backHome: 'होम वापस जाएं',
+    goBack: 'वापस जाएं',
+    notFound: 'पेज नहीं मिला',
+    notFoundMessage: 'क्षमा करें, आपके द्वारा देखा गया पेज मौजूद नहीं है।',
+  },
+  
+  // Validation
+  validation: {
+    required: 'यह फील्ड आवश्यक है',
+    emailRequired: 'कृपया अपना ईमेल दर्ज करें!',
+    emailInvalid: 'कृपया एक वैध ईमेल दर्ज करें!',
+    passwordRequired: 'कृपया अपना पासवर्ड दर्ज करें!',
+    passwordMinLength: 'पासवर्ड कम से कम 6 अक्षरों का होना चाहिए!',
+  },
+};

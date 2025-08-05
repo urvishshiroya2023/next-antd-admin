@@ -1,0 +1,118 @@
+export const en = {
+  // Navigation
+  nav: {
+    dashboard: 'Dashboard',
+    users: 'Users',
+    analytics: 'Analytics',
+    settings: 'Settings',
+    profile: 'Profile',
+    logout: 'Logout',
+    adminPanel: 'Admin Panel',
+  },
+  
+  // Authentication
+  auth: {
+    login: 'Login',
+    email: 'Email',
+    password: 'Password',
+    rememberMe: 'Remember me',
+    loginToAdminPanel: 'Login to Admin Panel',
+    enterEmail: 'Enter your email',
+    enterPassword: 'Enter your password',
+    loginSuccess: 'Login successful!',
+    loginFailed: 'Login failed. Please try again.',
+    invalidCredentials: 'Invalid email or password',
+    demoAccounts: 'Demo Accounts',
+    loginAsAdmin: 'Login as Admin',
+    loginAsEditor: 'Login as Editor',
+    loginAsViewer: 'Login as Viewer',
+    demoCredentials: 'Demo Credentials',
+  },
+  
+  // Dashboard
+  dashboard: {
+    welcome: 'Welcome back',
+    totalUsers: 'Total Users',
+    orders: 'Orders',
+    revenue: 'Revenue',
+    pageViews: 'Page Views',
+    recentActivity: 'Recent Activity',
+    quickActions: 'Quick Actions',
+    createNewUser: 'Create New User',
+    viewReports: 'View Reports',
+    manageSettings: 'Manage Settings',
+    noRecentActivity: 'No recent activity to display.',
+  },
+  
+  // Users
+  users: {
+    userManagement: 'User Management',
+    manageUsersPermissions: 'Manage users and their permissions (Admin only)',
+    addNewUser: 'Add New User',
+    user: 'User',
+    role: 'Role',
+    status: 'Status',
+    actions: 'Actions',
+    edit: 'Edit',
+    delete: 'Delete',
+    active: 'ACTIVE',
+    inactive: 'INACTIVE',
+    admin: 'ADMIN',
+    editor: 'EDITOR',
+    viewer: 'VIEWER',
+  },
+  
+  // Analytics
+  analytics: {
+    analyticsDashboard: 'Analytics Dashboard',
+    viewAnalyticsMetrics: 'View analytics and performance metrics',
+    availableTo: 'Available to: Admin, Editor, Viewer',
+    currentUserRole: 'Current user role',
+    totalRevenue: 'Total Revenue',
+    activeUsers: 'Active Users',
+    conversionRate: 'Conversion Rate',
+    goal: 'Goal',
+    performanceMetrics: 'Performance Metrics',
+    trafficSources: 'Traffic Sources',
+    metric: 'Metric',
+    value: 'Value',
+    change: 'Change',
+    pageViews: 'Page Views',
+    uniqueVisitors: 'Unique Visitors',
+    bounceRate: 'Bounce Rate',
+    sessionDuration: 'Session Duration',
+    direct: 'Direct',
+    search: 'Search',
+    social: 'Social',
+  },
+  
+  // Common
+  common: {
+    loading: 'Loading...',
+    error: 'Error',
+    success: 'Success',
+    cancel: 'Cancel',
+    save: 'Save',
+    delete: 'Delete',
+    edit: 'Edit',
+    add: 'Add',
+    search: 'Search',
+    filter: 'Filter',
+    export: 'Export',
+    import: 'Import',
+    refresh: 'Refresh',
+    backHome: 'Back Home',
+    goBack: 'Go Back',
+    notFound: 'Page not found',
+    notFoundMessage: 'Sorry, the page you visited does not exist.',
+  },
+  
+  // Validation
+  validation: {
+    required: 'This field is required',
+    emailRequired: 'Please input your email!',
+    emailInvalid: 'Please enter a valid email!',
+    passwordRequired: 'Please input your password!',
+    passwordMinLength: 'Password must be at least 6 characters!',
+  },
+};

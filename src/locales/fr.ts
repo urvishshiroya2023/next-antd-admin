@@ -1,0 +1,118 @@
+export const fr = {
+  // Navigation
+  nav: {
+    dashboard: 'Tableau de bord',
+    users: 'Utilisateurs',
+    analytics: 'Analytiques',
+    settings: 'Paramètres',
+    profile: 'Profil',
+    logout: 'Déconnexion',
+    adminPanel: 'Panneau d\'administration',
+  },
+  
+  // Authentication
+  auth: {
+    login: 'Connexion',
+    email: 'Email',
+    password: 'Mot de passe',
+    rememberMe: 'Se souvenir de moi',
+    loginToAdminPanel: 'Connexion au panneau d\'administration',
+    enterEmail: 'Entrez votre email',
+    enterPassword: 'Entrez votre mot de passe',
+    loginSuccess: 'Connexion réussie!',
+    loginFailed: 'Échec de la connexion. Veuillez réessayer.',
+    invalidCredentials: 'Email ou mot de passe invalide',
+    demoAccounts: 'Comptes de démonstration',
+    loginAsAdmin: 'Se connecter en tant qu\'administrateur',
+    loginAsEditor: 'Se connecter en tant qu\'éditeur',
+    loginAsViewer: 'Se connecter en tant que visualiseur',
+    demoCredentials: 'Identifiants de démonstration',
+  },
+  
+  // Dashboard
+  dashboard: {
+    welcome: 'Bon retour',
+    totalUsers: 'Total des utilisateurs',
+    orders: 'Commandes',
+    revenue: 'Revenus',
+    pageViews: 'Vues de page',
+    recentActivity: 'Activité récente',
+    quickActions: 'Actions rapides',
+    createNewUser: 'Créer un nouvel utilisateur',
+    viewReports: 'Voir les rapports',
+    manageSettings: 'Gérer les paramètres',
+    noRecentActivity: 'Aucune activité récente à afficher.',
+  },
+  
+  // Users
+  users: {
+    userManagement: 'Gestion des utilisateurs',
+    manageUsersPermissions: 'Gérer les utilisateurs et leurs permissions (Admin uniquement)',
+    addNewUser: 'Ajouter un nouvel utilisateur',
+    user: 'Utilisateur',
+    role: 'Rôle',
+    status: 'Statut',
+    actions: 'Actions',
+    edit: 'Modifier',
+    delete: 'Supprimer',
+    active: 'ACTIF',
+    inactive: 'INACTIF',
+    admin: 'ADMIN',
+    editor: 'ÉDITEUR',
+    viewer: 'VISUALISEUR',
+  },
+  
+  // Analytics
+  analytics: {
+    analyticsDashboard: 'Tableau de bord analytique',
+    viewAnalyticsMetrics: 'Voir les métriques d\'analyse et de performance',
+    availableTo: 'Disponible pour: Admin, Éditeur, Visualiseur',
+    currentUserRole: 'Rôle utilisateur actuel',
+    totalRevenue: 'Revenus totaux',
+    activeUsers: 'Utilisateurs actifs',
+    conversionRate: 'Taux de conversion',
+    goal: 'Objectif',
+    performanceMetrics: 'Métriques de performance',
+    trafficSources: 'Sources de trafic',
+    metric: 'Métrique',
+    value: 'Valeur',
+    change: 'Changement',
+    pageViews: 'Vues de page',
+    uniqueVisitors: 'Visiteurs uniques',
+    bounceRate: 'Taux de rebond',
+    sessionDuration: 'Durée de session',
+    direct: 'Direct',
+    search: 'Recherche',
+    social: 'Social',
+  },
+  
+  // Common
+  common: {
+    loading: 'Chargement...',
+    error: 'Erreur',
+    success: 'Succès',
+    cancel: 'Annuler',
+    save: 'Enregistrer',
+    delete: 'Supprimer',
+    edit: 'Modifier',
+    add: 'Ajouter',
+    search: 'Rechercher',
+    filter: 'Filtrer',
+    export: 'Exporter',
+    import: 'Importer',
+    refresh: 'Actualiser',
+    backHome: 'Retour à l\'accueil',
+    goBack: 'Retour',
+    notFound: 'Page non trouvée',
+    notFoundMessage: 'Désolé, la page que vous avez visitée n\'existe pas.',
+  },
+  
+  // Validation
+  validation: {
+    required: 'Ce champ est requis',
+    emailRequired: 'Veuillez saisir votre email!',
+    emailInvalid: 'Veuillez saisir un email valide!',
+    passwordRequired: 'Veuillez saisir votre mot de passe!',
+    passwordMinLength: 'Le mot de passe doit contenir au moins 6 caractères!',
+  },
+};
