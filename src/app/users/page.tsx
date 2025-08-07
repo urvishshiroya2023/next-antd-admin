@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
-import { Table, Card, Button, Space, Tag, Avatar } from "antd";
-import { UserOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { useAuth } from "@/contexts/AuthContext";
 import { withRouteGuard } from "@/components/RouteGuard";
+import { useAuth } from "@/contexts/AuthContext";
+import { DeleteOutlined, EditOutlined, UserOutlined } from "@ant-design/icons";
+import { Avatar, Button, Card, Space, Table, Tag } from "antd";
 
 const mockUsers = [
   {
@@ -101,7 +100,7 @@ function UsersPage() {
   ];
 
   return (
-    <div className="p-6">
+    <div className="">
       <div className="mb-6">
         <h1 className="text-2xl font-bold mb-2">User Management</h1>
         <p className="text-gray-600">

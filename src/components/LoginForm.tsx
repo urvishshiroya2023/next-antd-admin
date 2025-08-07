@@ -26,8 +26,7 @@ export function LoginForm() {
   });
 
   const onSubmit = (data: LoginFormInputs) => {
-    // Dummy login — dispatch user with roles here
-    dispatch(login({ id: "1", name: data.username, roles: ["admin"] }));
+    dispatch(login({ id: "1", name: data.username, roles: "admin" }));
   };
 
   return (

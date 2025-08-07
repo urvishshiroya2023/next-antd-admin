@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-import { Typography, Space } from "antd";
 import { useI18n } from "@/contexts/I18nContext";
+import { Space, Typography } from "antd";
 
 const { Title } = Typography;
 
@@ -14,7 +13,7 @@ export function SidebarHeader({ collapsed }: SidebarHeaderProps) {
   const { t } = useI18n();
 
   return (
-    <div className="p-4 text-center border-b border-gray-600" style={{ borderBottomColor: 'rgba(255,255,255,0.1)' }}>
+    <div className="p-4 text-center border-b border-gray-600" style={{ borderBottomColor: 'rgba(78, 41, 41, 0.1)' }}>
       {collapsed ? (
         <div className="text-xl font-bold text-white h-8 flex items-center justify-center bg-blue-600 rounded">
           A

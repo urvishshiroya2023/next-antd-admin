@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, Card, message, Checkbox, Space, Divider } from "antd";
+import { Form, Input, Button, Card, Checkbox, Space, Divider, App } from "antd";
 import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocationManager } from "@/utils/locationManager";
+
+const { useApp } = App;
 
 interface LoginFormData {
   email: string;
@@ -16,35 +18,48 @@ interface LoginFormData {
 export default function LoginPage() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [loginStatus, setLoginStatus] = useState<{success: boolean; message: string; role?: string} | null>(null);
   const { login, isAuthenticated } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const locationManager = useLocationManager();
   const redirectPath = searchParams.get('redirect');
+  const { message } = useApp();
 
+  // Handle login status changes
   useEffect(() => {
     locationManager.setCurrentLocation("/login");
     
-    // If user is already authenticated, redirect them
     if (isAuthenticated) {
       const redirectTo = redirectPath || "/dashboard";
       router.push(redirectTo);
     }
   }, [isAuthenticated, router, redirectPath, locationManager]);
 
+  // Handle login status messages
+  useEffect(() => {
+    if (loginStatus) {
+      if (loginStatus.success) {
+        message.success(loginStatus.role ? `Logged in as ${loginStatus.role}!` : 'Login successful!');
+      } else if (loginStatus.message) {
+        message.error(loginStatus.message);
+      }
+    }
+  }, [loginStatus, message]);
+
   const onSubmit = async (values: LoginFormData) => {
     setLoading(true);
     try {
       const success = await login(values.email, values.password);
-      
-      if (success) {
-        message.success("Login successful!");
-        // AuthContext will handle the redirect
-      } else {
-        message.error("Invalid email or password");
-      }
+      setLoginStatus({
+        success,
+        message: success ? '' : 'Invalid email or password',
+      });
     } catch (error) {
-      message.error("Login failed. Please try again.");
+      setLoginStatus({
+        success: false,
+        message: 'Login failed. Please try again.'
+      });
     } finally {
       setLoading(false);
     }
@@ -62,12 +77,17 @@ export default function LoginPage() {
       
       const credentials = demoCredentials[role as keyof typeof demoCredentials];
       const success = await login(credentials.email, credentials.password);
-      
-      if (success) {
-        message.success(`Logged in as ${role}!`);
-      }
+      setLoginStatus({
+        success,
+        message: success ? '' : 'Invalid credentials',
+        role: success ? role : undefined
+      });
     } catch (error) {
-      message.error("Demo login failed");
+      console.error("Login error:", error);
+      setLoginStatus({
+        success: false,
+        message: 'Demo login failed. Please try again.'
+      });
     } finally {
       setLoading(false);
     }

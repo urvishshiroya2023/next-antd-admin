@@ -1,31 +1,52 @@
 "use client";
 
-import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { ConfigProvider } from "antd";
-
+import { Navigation } from "@/components/Navigation";
+import { RouteGuard } from "@/components/RouteGuard";
 import { themeConfig } from "@/config/theme";
-import { antdConfig } from "@/config/antd.config";
-import { store } from "@/store/store";
-import { Provider } from "react-redux";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { I18nProvider } from "@/contexts/I18nContext";
-import { RouteGuard } from "@/components/RouteGuard";
-import { Navigation } from "@/components/Navigation";
+import { store } from "@/store/store";
+import { StyleProvider } from '@ant-design/cssinjs';
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { App as AntdApp, ConfigProvider } from "antd";
+import { Provider } from "react-redux";
+
+// Create a wrapper component that uses the App context
+function AntdAppWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <AntdApp>
+      <StyleProvider hashPriority="high">
+        <Navigation>
+          {children}
+        </Navigation>
+      </StyleProvider>
+    </AntdApp>
+  );
+}
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <AntdRegistry>
       <Provider store={store}>
-        <ConfigProvider theme={themeConfig} {...antdConfig}>
-          <I18nProvider>
-            <AuthProvider>
-              <RouteGuard>
-                <Navigation>
-                  {children}
-                </Navigation>
-              </RouteGuard>
-            </AuthProvider>
-          </I18nProvider>
+        <ConfigProvider 
+          theme={{
+            ...themeConfig,
+          
+          
+          }}
+
+        >
+          <StyleProvider hashPriority="high">
+            <I18nProvider>
+              <AuthProvider>
+                <RouteGuard>
+                  <AntdAppWrapper>
+                    {children}
+                  </AntdAppWrapper>
+                </RouteGuard>
+              </AuthProvider>
+            </I18nProvider>
+          </StyleProvider>
         </ConfigProvider>
       </Provider>
     </AntdRegistry>

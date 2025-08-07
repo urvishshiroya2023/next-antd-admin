@@ -1,0 +1,1 @@
+/Users/urvishsmacair/Documents/UVS/Untitled/next-antd-admin/src/app/settings/master-data/components/MasterTypeList.tsx

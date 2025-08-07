@@ -1,6 +1,3 @@
-// Import React 19 compatibility patch FIRST
-import "@ant-design/v5-patch-for-react-19";
-// Import antd config to suppress warnings
 import "@/config/antd.config";
 
 import type { Metadata } from "next";
