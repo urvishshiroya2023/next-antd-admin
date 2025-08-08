@@ -3,13 +3,10 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useI18n } from "@/contexts/I18nContext";
 import {
-  DatabaseOutlined,
   DeleteOutlined,
   EditOutlined,
   EyeOutlined,
   FilterOutlined,
-  GoldOutlined,
-  MoreOutlined,
   PlusOutlined,
   SearchOutlined
 } from "@ant-design/icons";
@@ -18,14 +15,11 @@ import {
   Card,
   Col,
   DatePicker,
-  Dropdown,
   Form,
   Input,
   InputNumber,
-  Menu,
   message,
   Modal,
-  Progress,
   Row,
   Select,
   Space,
@@ -136,7 +130,7 @@ export default function SemiFinishedGoodsPage() {
   const [filters, setFilters] = useState<any>({});
   
   // Filter data based on search and filters
-  const filteredData = semiFinishedGoodsData.filter(item => {
+  const filteredData = semiFinishedGoodsData.filter((item: any) => {
     const matchesSearch = item.name.toLowerCase().includes(searchText.toLowerCase()) ||
                         item.id.toLowerCase().includes(searchText.toLowerCase());
     
@@ -277,9 +271,9 @@ export default function SemiFinishedGoodsPage() {
               danger 
               icon={<DeleteOutlined />} 
               onClick={() => {
-                if (window.confirm(`Are you sure you want to delete ${record.name}?`)) {
-                  handleDelete(record.id);
-                }
+                // if (window.confirm(`Are you sure you want to delete ${record.name}?`)) {
+                //   handleDelete(record.id);
+                // }
               }}
             />
           </Tooltip>
@@ -388,7 +382,7 @@ export default function SemiFinishedGoodsPage() {
                 label="Item Name"
                 rules={[{ required: true, message: 'Please enter item name' }]}
               >
-                <Input placeholder="e.g., Gold Chain (24K, 18\")" />
+                <Input placeholder={`e.g., Gold Chain (24K, 18\")`} />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -454,7 +448,7 @@ export default function SemiFinishedGoodsPage() {
                     <Form.Item name="unit" noStyle>
                       <Select style={{ width: 80 }}>
                         <Option value="pcs">pcs</Option>
-                        <Option value="pairs">pairs</option>
+                        <Option value="pairs">pairs</Option>
                         <Option value="sets">sets</Option>
                         <Option value="meters">meters</Option>
                       </Select>

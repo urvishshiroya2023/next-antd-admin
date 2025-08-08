@@ -4,10 +4,10 @@ import { appConfig } from "./app.config";
 export const themeConfig = {
   token: {
     // Color Palette
-    colorPrimary: appConfig.theme.primaryColor, // #46F527
+    colorPrimary: appConfig.theme.primaryColor, 
     colorSuccess: '#52c41a',
     colorWarning: '#faad14',
-    colorError: appConfig.theme.secondaryColor, // #ff4d4f
+    colorError: appConfig.theme.secondaryColor, 
     colorInfo: appConfig.theme.primaryColor,
     colorLink: appConfig.theme.primaryColor,
     

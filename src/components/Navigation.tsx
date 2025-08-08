@@ -1,13 +1,10 @@
 "use client";
 
-import { LanguageSelector } from "@/components/LanguageSelector";
 import { appConfig } from "@/config/app.config";
 import { useAuth } from "@/contexts/AuthContext";
 import { useI18n } from "@/contexts/I18nContext";
 import {
   AlertOutlined,
-  AppstoreOutlined,
-  BellOutlined,
   BuildOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -19,15 +16,12 @@ import {
   InboxOutlined,
   LineChartOutlined,
   LogoutOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  QuestionCircleOutlined,
   SettingOutlined,
   TeamOutlined,
   ToolOutlined,
   UserOutlined
 } from "@ant-design/icons";
-import { Avatar, Badge, Button, Layout, Space, theme, Typography } from "antd";
+import { Layout, Space, theme, Typography } from "antd";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -178,48 +172,52 @@ export function Navigation({ children }: NavigationProps) {
     return items;
   };
 
-  const renderSidebar = () => (
-    <Sider
-      trigger={null}
-      collapsible
-      collapsed={collapsed}
-      width={260}
-      style={{
-        background: '#1a1f33',
-        boxShadow: '2px 0 8px 0 rgba(0, 0, 0, 0.2)',
-        position: 'fixed',
-        left: 0,
-        top: 0,
-        bottom: 0,
-        zIndex: 100,
-        overflow: 'auto',
-        transition: 'all 0.2s',
-        borderRight: '1px solid rgba(255, 255, 255, 0.1)'
-      }}
-      theme="dark"
-    >
-      <div 
-        className={`flex items-center justify-${collapsed ? 'center' : 'start'} h-20 cursor-pointer`}
-        onClick={() => router.push('/dashboard')}
+  const renderSidebar = () => {
+    // Create a lighter version of the primary color for hover states (20% opacity)
+    const primaryColorLight = `${appConfig.theme.primaryColor}33`; // 20% opacity
+    
+    return (
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        width={260}
+        style={{
+          overflow: 'auto',
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          background: '#ffffff',
+          boxShadow: '2px 0 8px 0 rgba(0, 0, 0, 0.05)',
+          zIndex: 10,
+          borderRight: '1px solid #f0f0f0',
+        }}
+        theme="light"
       >
-        {collapsed ? (
-          <div className="flex items-center justify-center w-12 h-12 rounded-lg" style={{ background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)' }}>
-            <span className="text-white font-bold text-xl">J</span>
-          </div>
-        ) : (
-          <div className="flex items-center gap-3 px-4">
-            <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)' }}>
+        <div
+          className={`flex items-center justify-${collapsed ? 'center' : 'start'} h-20 cursor-pointer`}
+          onClick={() => router.push('/dashboard')}
+        >
+          {collapsed ? (
+            <div className="flex items-center justify-center w-12 h-12 rounded-lg" style={{ background: appConfig.theme.primaryColor }}>
               <span className="text-white font-bold text-xl">J</span>
             </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-semibold text-white whitespace-nowrap">Jewelry ERP</span>
-              <span className="text-xs text-gray-400">v2.0.0</span>
+          ) : (
+            <div className="flex items-center gap-3 px-4">
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: appConfig.theme.primaryColor }}>
+                <span className="text-white font-bold text-xl">J</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-lg font-semibold text-gray-900 whitespace-nowrap">Jewelry ERP</span>
+                <span className="text-xs text-gray-500">v2.0.0</span>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
       
-      {/* <div className="px-4 py-3">
+        {/* <div className="px-4 py-3">
         <div className="relative">
           <Input 
             placeholder="Search..." 
@@ -235,159 +233,180 @@ export function Navigation({ children }: NavigationProps) {
         </div>
       </div> */}
 
-      <div className="mt-4">
-        {menuItems.map(item => (
-          <div key={item.key} className="px-2">
-            {item.href ? (
-              <div 
-                className={`flex items-center h-10 px-4 rounded-lg cursor-pointer transition-colors ${
-                  pathname === item.href 
-                    ? 'bg-blue-600 text-white' 
-                    : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                }`}
-                onClick={() => router.push(item.href!)}
-              >
-                <span className="mr-3">{item.icon}</span>
-                {!collapsed && <span>{item.label}</span>}
-              </div>
-            ) : (
-              <div className="mb-2">
-                <div className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  {!collapsed && item.label}
-                </div>
-                {item.children?.map(child => (
-                  <div 
-                    key={child.key}
-                    className={`flex items-center h-10 px-4 rounded-lg cursor-pointer transition-colors ${
-                      pathname === child.href 
-                        ? 'bg-blue-600 text-white' 
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+        <div className="mt-4">
+          {menuItems.map(item => (
+            <div key={item.key} className="px-2">
+              {item.href ? (
+                <div
+                  className={`flex items-center h-10 px-4 rounded-lg cursor-pointer transition-colors ${pathname === item.href
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                     }`}
-                    onClick={() => router.push(child.href!)}
-                  >
-                    <span className="mr-3">{child.icon}</span>
-                    {!collapsed && <span>{child.label}</span>}
+                  onClick={() => router.push(item.href!)}
+                >
+                  <span className="mr-3">{item.icon}</span>
+                  {!collapsed && <span>{item.label}</span>}
+                </div>
+              ) : (
+                <div className="mb-2">
+                  <div className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    {!collapsed && item.label}
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {!collapsed && (
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-800 bg-gray-900/30">
-        <div 
-          className="flex items-center p-2 rounded-lg cursor-pointer text-gray-300 hover:bg-gray-800/50 hover:text-white transition-colors"
-          onClick={() => {
-            logout();
-            router.push('/login');
-          }}
-        >
-          <LogoutOutlined className="text-lg" />
-          {!collapsed && <span className="ml-3">Logout</span>}
-        </div>
-      </div>
-      )}
-    </Sider>
-  );
-
-  const renderHeader = () => (
-    <Header
-      style={{
-        padding: '0 24px',
-        background: '#fff',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        position: 'sticky',
-        top: 0,
-        zIndex: 10,
-        boxShadow: '0 1px 4px rgba(0, 21, 41, 0.08)',
-        height: 64,
-        marginLeft: collapsed ? 80 : 260,
-        transition: 'all 0.2s',
-      }}
-    >
-      <div className="flex items-center">
-        <Button
-          type="text"
-          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          onClick={() => setCollapsed(!collapsed)}
-          style={{ width: 48, height: 48 }}
-        />
-        <div className="hidden md:flex items-center ml-4">
-          <AppstoreOutlined className="mr-2 text-gray-500" />
-          <Text type="secondary" className="text-sm">
-            {pathname.split('/').filter(Boolean).map(part => 
-              part.charAt(0).toUpperCase() + part.slice(1)
-            ).join(' > ')}
-          </Text>
-        </div>
-      </div>
-      
-      <div className="flex items-center gap-4">
-        <Button 
-          type="text" 
-          icon={<QuestionCircleOutlined className="text-lg" />} 
-          className="hidden md:flex items-center justify-center"
-        />
-        <Badge count={5} size="small" className="hidden md:block">
-          <Button 
-            type="text" 
-            icon={<BellOutlined className="text-lg" />} 
-            className="flex items-center justify-center"
-          />
-        </Badge>
-        
-        <div className="h-8 border-l mx-2"></div>
-        
-        <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 px-3 py-1 rounded-lg">
-          <Avatar 
-            size={32} 
-            icon={<UserOutlined />} 
-            style={{ backgroundColor: colorPrimary }}
-            src={user?.avatar}
-          />
-          {!collapsed && (
-            <div className="hidden md:block">
-              <div className="text-sm font-medium">{user?.name || 'User'}</div>
-              <div className="text-xs text-gray-500">{user?.role || 'Admin'}</div>
+                  {item.children?.map(child => (
+                    <div
+                      key={child.key}
+                      className={`flex items-center h-10 px-4 rounded-lg cursor-pointer transition-colors ${pathname === child.href
+                          ? 'text-white'
+                          : 'text-gray-700 hover:text-gray-900'
+                        }`}
+                      style={{
+                        backgroundColor: pathname === child.href
+                          ? appConfig.theme.primaryColor
+                          : 'transparent',
+                        margin: '4px 8px',
+                        fontWeight: pathname === child.href ? '500' : '400',
+                        '--tw-bg-opacity': pathname === child.href ? 1 : 0,
+                        '--tw-text-opacity': pathname === child.href ? 1 : 0.9,
+                        '--tw-hover-bg-opacity': 0.1,
+                        '--primary-color': appConfig.theme.primaryColor,
+                      } as React.CSSProperties}
+                      onMouseEnter={(e) => {
+                        if (pathname !== child.href) {
+                          e.currentTarget.style.backgroundColor = `${appConfig.theme.primaryColor}1a`; // 10% opacity
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (pathname !== child.href) {
+                          e.currentTarget.style.backgroundColor = 'transparent';
+                        }
+                      }}
+                      onClick={() => router.push(child.href!)}
+                    >
+                      <span className="mr-3">{child.icon}</span>
+                      {!collapsed && <span>{child.label}</span>}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
+          ))}
         </div>
-        
-        <LanguageSelector />
-      </div>
-    </Header>
-  );
 
-  const renderContent = () => (
-    <div 
-      style={{
-        marginLeft: collapsed ? 80 : 260,
-        padding: '16px',
-        minHeight: 'calc(100vh - 64px)',
-        background: '#f0f2f5',
-        transition: 'all 0.2s',
-      }}
-    >
-      <div 
-        className="bg-white rounded-lg shadow-sm p-4"
-        style={{ minHeight: 'calc(100vh - 112px)' }}
-      >
-        {children}
-      </div>
-    </div>
-  );
+        {!collapsed && (
+          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white">
+            <div
+              className="flex items-center p-2 rounded-lg cursor-pointer text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+              onClick={() => {
+                logout();
+                router.push('/login');
+              }}
+            >
+              <LogoutOutlined className="text-lg" />
+              {!collapsed && <span className="ml-3">Logout</span>}
+            </div>
+          </div>
+        )}
+      </Sider>
+    );
 
-  return (
-    <Layout style={{ minHeight: '100vh' }}>
-      {renderSidebar()}
-      <Layout>
-        {renderHeader()}
-        {renderContent()}
-      </Layout>
-    </Layout>
-  );
+ 
+  }
 }
+//  const renderHeader = () => (
+//     <Header
+//       style={{
+//         padding: '0 24px',
+//         background: '#fff',
+//         display: 'flex',
+//         alignItems: 'center',
+//         justifyContent: 'space-between',
+//         position: 'sticky',
+//         top: 0,
+//         zIndex: 10,
+//         boxShadow: '0 1px 4px rgba(0, 21, 41, 0.08)',
+//         height: 64,
+//         marginLeft: collapsed ? 80 : 260,
+//         transition: 'all 0.2s',
+//       }}
+//     >
+//       <div className="flex items-center">
+//         <Button
+//           type="text"
+//           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+//           onClick={() => setCollapsed(!collapsed)}
+//           style={{ width: 48, height: 48 }}
+//         />
+//         <div className="hidden md:flex items-center ml-4">
+//           <AppstoreOutlined className="mr-2 text-gray-500" />
+//           <Text type="secondary" className="text-sm">
+//             {pathname.split('/').filter(Boolean).map(part => 
+//               part.charAt(0).toUpperCase() + part.slice(1)
+//             ).join(' > ')}
+//           </Text>
+//         </div>
+//       </div>
+      
+//       <div className="flex items-center gap-4">
+//         <Button 
+//           type="text" 
+//           icon={<QuestionCircleOutlined className="text-lg" />} 
+//           className="hidden md:flex items-center justify-center"
+//         />
+//         <Badge count={5} size="small" className="hidden md:block">
+//           <Button 
+//             type="text" 
+//             icon={<BellOutlined className="text-lg" />} 
+//             className="flex items-center justify-center"
+//           />
+//         </Badge>
+        
+//         <div className="h-8 border-l mx-2"></div>
+        
+//         <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 px-3 py-1 rounded-lg">
+//           <Avatar 
+//             size={32} 
+//             icon={<UserOutlined />} 
+//             style={{ backgroundColor: colorPrimary }}
+//             src={user?.avatar}
+//           />
+//           {!collapsed && (
+//             <div className="hidden md:block">
+//               <div className="text-sm font-medium">{user?.name || 'User'}</div>
+//               <div className="text-xs text-gray-500">{user?.role || 'Admin'}</div>
+//             </div>
+//           )}
+//         </div>
+        
+//         <LanguageSelector />
+//       </div>
+//     </Header>
+//   );
+
+//   const renderContent = () => (
+//     <div 
+//       style={{
+//         marginLeft: collapsed ? 80 : 260,
+//         padding: '16px',
+//         minHeight: 'calc(100vh - 64px)',
+//         background: '#f0f2f5',
+//         transition: 'all 0.2s',
+//       }}
+//     >
+//       <div 
+//         className="bg-white rounded-lg shadow-sm p-4"
+//         style={{ minHeight: 'calc(100vh - 112px)' }}
+//       >
+//         {children}
+//       </div>
+//     </div>
+//   );
+
+  // return (
+  //   <Layout className="min-h-screen bg-gray-50">
+  //     {renderSidebar()}
+  //     <Layout style={{ marginLeft: collapsed ? 80 : 260, transition: 'margin 0.2s' }}>
+  //       {renderHeader()}
+  //       {renderContent()}
+  //     </Layout>
+  //   </Layout>
+  // );

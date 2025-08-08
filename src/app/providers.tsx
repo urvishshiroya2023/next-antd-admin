@@ -6,21 +6,19 @@ import { themeConfig } from "@/config/theme";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { I18nProvider } from "@/contexts/I18nContext";
 import { store } from "@/store/store";
-import { StyleProvider } from '@ant-design/cssinjs';
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { App as AntdApp, ConfigProvider } from "antd";
+import { ConfigProvider } from "antd";
 import { Provider } from "react-redux";
 
 // Create a wrapper component that uses the App context
 function AntdAppWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <AntdApp>
-      <StyleProvider hashPriority="high">
+
         <Navigation>
           {children}
         </Navigation>
-      </StyleProvider>
-    </AntdApp>
+
+
   );
 }
 
@@ -36,7 +34,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           }}
 
         >
-          <StyleProvider hashPriority="high">
+          {/* <StyleProvider hashPriority="high"> */}
             <I18nProvider>
               <AuthProvider>
                 <RouteGuard>
@@ -46,7 +44,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 </RouteGuard>
               </AuthProvider>
             </I18nProvider>
-          </StyleProvider>
+          {/* </StyleProvider> */}
         </ConfigProvider>
       </Provider>
     </AntdRegistry>

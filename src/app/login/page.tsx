@@ -1,32 +1,22 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Form, Input, Button, Card, Checkbox, Space, Divider, App } from "antd";
-import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import { Card } from "@/ui/display/Card";
+import { notification } from "@/ui/feedback/Notification";
 import { useLocationManager } from "@/utils/locationManager";
-
-const { useApp } = App;
-
-interface LoginFormData {
-  email: string;
-  password: string;
-  remember: boolean;
-}
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { LoginForm } from "./components/LoginForm";
 
 export default function LoginPage() {
-  const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [loginStatus, setLoginStatus] = useState<{success: boolean; message: string; role?: string} | null>(null);
   const { login, isAuthenticated } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const locationManager = useLocationManager();
   const redirectPath = searchParams.get('redirect');
-  const { message } = useApp();
 
-  // Handle login status changes
+  // Handle authentication state changes
   useEffect(() => {
     locationManager.setCurrentLocation("/login");
     
@@ -36,36 +26,32 @@ export default function LoginPage() {
     }
   }, [isAuthenticated, router, redirectPath, locationManager]);
 
-  // Handle login status messages
-  useEffect(() => {
-    if (loginStatus) {
-      if (loginStatus.success) {
-        message.success(loginStatus.role ? `Logged in as ${loginStatus.role}!` : 'Login successful!');
-      } else if (loginStatus.message) {
-        message.error(loginStatus.message);
-      }
-    }
-  }, [loginStatus, message]);
-
-  const onSubmit = async (values: LoginFormData) => {
+  const handleSubmit = async (data: { email: string; password: string }) => {
     setLoading(true);
     try {
-      const success = await login(values.email, values.password);
-      setLoginStatus({
-        success,
-        message: success ? '' : 'Invalid email or password',
-      });
+      const success = await login(data.email, data.password);
+      if (success) {
+        notification.success({
+          message: "Login Successful",
+          description: "You have been successfully logged in.",
+        });
+      } else {
+        notification.error({
+          message: "Login Failed",
+          description: "Invalid email or password. Please try again.",
+        });
+      }
     } catch (error) {
-      setLoginStatus({
-        success: false,
-        message: 'Login failed. Please try again.'
+      console.error("Login error:", error);
+      notification.error({
+        message: "Login Error",
+        description: "An error occurred during login. Please try again later.",
       });
     } finally {
       setLoading(false);
     }
   };
 
-  // Demo login function
   const handleDemoLogin = async (role: string) => {
     setLoading(true);
     try {
@@ -77,16 +63,23 @@ export default function LoginPage() {
       
       const credentials = demoCredentials[role as keyof typeof demoCredentials];
       const success = await login(credentials.email, credentials.password);
-      setLoginStatus({
-        success,
-        message: success ? '' : 'Invalid credentials',
-        role: success ? role : undefined
-      });
+      
+      if (success) {
+        notification.success({
+          message: `Logged in as ${role}`,
+          description: `You are now logged in with ${role} privileges.`,
+        });
+      } else {
+        notification.error({
+          message: "Demo Login Failed",
+          description: "Failed to log in with demo credentials.",
+        });
+      }
     } catch (error) {
-      console.error("Login error:", error);
-      setLoginStatus({
-        success: false,
-        message: 'Demo login failed. Please try again.'
+      console.error("Demo login error:", error);
+      notification.error({
+        message: "Login Error",
+        description: "An error occurred during demo login. Please try again.",
       });
     } finally {
       setLoading(false);
@@ -94,95 +87,24 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md" title="Login to Admin Panel">
-        <Form
-          form={form}
-          onFinish={onSubmit}
-          layout="vertical"
-          requiredMark={false}
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <div className="w-full max-w-md">
+        <Card 
+          title={
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-gray-800">Welcome Back</h1>
+              <p className="text-gray-500 mt-1">Sign in to your account</p>
+            </div>
+          }
+          className="w-full"
         >
-          <Form.Item
-            name="email"
-            label="Email"
-            rules={[
-              { required: true, message: "Please input your email!" },
-              { type: "email", message: "Please enter a valid email!" },
-            ]}
-          >
-            <Input 
-              prefix={<UserOutlined />} 
-              placeholder="Enter your email" 
-              size="large"
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="password"
-            label="Password"
-            rules={[
-              { required: true, message: "Please input your password!" },
-              { min: 6, message: "Password must be at least 6 characters!" },
-            ]}
-          >
-            <Input.Password
-              prefix={<LockOutlined />}
-              placeholder="Enter your password"
-              size="large"
-              iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-            />
-          </Form.Item>
-
-          <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
-          <Form.Item>
-            <Button 
-              type="primary" 
-              htmlType="submit" 
-              loading={loading}
-              size="large"
-              block
-            >
-              Login
-            </Button>
-          </Form.Item>
-        </Form>
-
-        <Divider>Demo Accounts</Divider>
-        
-        <Space direction="vertical" className="w-full">
-          <Button 
-            onClick={() => handleDemoLogin('admin')}
-            loading={loading}
-            block
-          >
-            Login as Admin
-          </Button>
-          <Button 
-            onClick={() => handleDemoLogin('editor')}
-            loading={loading}
-            block
-          >
-            Login as Editor
-          </Button>
-          <Button 
-            onClick={() => handleDemoLogin('viewer')}
-            loading={loading}
-            block
-          >
-            Login as Viewer
-          </Button>
-        </Space>
-
-        <div className="mt-4 text-center text-sm text-gray-600">
-          <p>Demo Credentials:</p>
-          <p>Admin: admin@example.com / admin123</p>
-          <p>Editor: editor@example.com / editor123</p>
-          <p>Viewer: viewer@example.com / viewer123</p>
-        </div>
-      </Card>
+          <LoginForm 
+            onSubmit={handleSubmit} 
+            loading={loading} 
+            onDemoLogin={handleDemoLogin} 
+          />
+        </Card>
+      </div>
     </div>
   );
 }

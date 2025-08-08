@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
+
 import { appConfig } from "@/config/app.config";
+import { NextRequest, NextResponse } from "next/server";
 
 // Mock user database
 const mockUsers = [
@@ -59,7 +60,7 @@ export async function POST(request: NextRequest) {
         userId: user.id,
         email: user.email,
         role: user.role,
-        exp: Date.now() + appConfig.auth.sessionTimeout,
+        // exp: Date.now() + appConfig.auth.sessionTimeout,
       })
     ).toString("base64");
 

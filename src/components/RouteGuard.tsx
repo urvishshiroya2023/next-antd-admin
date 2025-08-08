@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { Spin } from "antd";
-import { useAuth } from "@/contexts/AuthContext";
 import { appConfig } from "@/config/app.config";
+import { useAuth } from "@/contexts/AuthContext";
+import { Spin } from "antd";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 interface RouteGuardProps {
   children: React.ReactNode;

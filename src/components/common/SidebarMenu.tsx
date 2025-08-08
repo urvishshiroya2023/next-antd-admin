@@ -116,17 +116,17 @@ export function SidebarMenu({ items }: SidebarMenuProps) {
 
   return (
     <Menu
-      theme="dark"
       mode="inline"
       selectedKeys={selectedKeys}
-      defaultOpenKeys={openKeys}
+      openKeys={openKeys}
       onClick={onMenuClick}
       items={filteredItems}
       style={{
+        height: '100%',
         borderRight: 0,
-        background: 'transparent',
-        padding: '8px 0',
+        backgroundColor: 'transparent'
       }}
+      theme="light"
     />
   );
 }

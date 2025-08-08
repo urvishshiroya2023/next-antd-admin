@@ -1,7 +1,7 @@
 "use client";
 
-import { PlusOutlined, SearchOutlined, EditOutlined, DeleteOutlined, DatabaseOutlined } from '@ant-design/icons';
-import { Button, Card, Input, Space, Table, Tag, Modal, Breadcrumb } from 'antd';
+import { DatabaseOutlined, DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Card, Input, Modal, Space, Table, Tag } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -79,9 +79,11 @@ const MasterItemList = ({ masterTypeId, parentItem }: MasterItemListProps) => {
   const handleBack = () => {
     if (parentItem) {
       // Go up one level in the hierarchy
-      const pathParts = window.location.pathname.split('/');
-      const newPath = pathParts.slice(0, -2).join('/');
-      router.push(newPath);
+      if (typeof window !== "undefined") {
+        const pathParts = window.location.pathname.split('/');
+        const newPath = pathParts.slice(0, -2).join('/');
+        router.push(newPath);
+      }
     } else {
       // Go back to master types list
       router.push('/settings/master-data');
