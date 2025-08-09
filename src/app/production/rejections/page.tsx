@@ -1,8 +1,10 @@
 "use client";
 
 import { useI18n } from "@/contexts/I18nContext";
+import { Card } from "@/ui";
 import { CheckCircleOutlined, EditOutlined, FileExcelOutlined, FilePdfOutlined, FilterOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
-import { App, Button, Card, Col, DatePicker, Divider, Form, Input, InputNumber, Modal, Row, Select, Space, Table, Tabs, Tag, Tooltip, Typography } from "antd";
+import { App, Button, Col, DatePicker, Divider, Form, Input, InputNumber, Modal, Row, Select, Space, Table, Tabs, Tag, Tooltip, Typography } from "antd";
+import dayjs from 'dayjs';
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -364,7 +366,7 @@ export default function RejectionsPage() {
         width={800}
         okText={currentRecord ? 'Update' : 'Save'}
         cancelText="Cancel"
-        destroyOnClose
+        destroyOnHidden
       >
         <Form
           form={form}
@@ -373,9 +375,11 @@ export default function RejectionsPage() {
           initialValues={{
             status: 'Pending',
             unit: 'pcs',
-            date: new Date(),
+            date: currentRecord?.date ? dayjs(currentRecord.date) : dayjs(),
             defectSeverity: 'Medium',
-            ...currentRecord
+            ...currentRecord,
+            // Ensure we don't override the date from currentRecord if it exists
+            ...(currentRecord?.date ? { date: dayjs(currentRecord.date) } : {})
           }}
           preserve={false}
         >

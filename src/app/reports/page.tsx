@@ -1,8 +1,9 @@
 "use client";
 
 import { useI18n } from "@/contexts/I18nContext";
+import { Card } from "@/ui";
 import { BarChartOutlined, DownloadOutlined, FileExcelOutlined, FilePdfOutlined, PieChartOutlined, TableOutlined } from "@ant-design/icons";
-import { Button, Card, DatePicker, Dropdown, Menu, Tabs, Typography } from "antd";
+import { Button, DatePicker, Dropdown, Tabs, Typography } from "antd";
 import {
   ArcElement,
   BarElement,
@@ -96,18 +97,19 @@ const ReportsPage = () => {
   const [dateRange, setDateRange] = useState<[Dayjs, Dayjs] | null>(null);
   const { t } = useI18n();
 
-  const exportMenu = (
-    <Menu items={[
-      { key: 'pdf', label: 'Export as PDF', icon: <FilePdfOutlined /> },
-      { key: 'excel', label: 'Export as Excel', icon: <FileExcelOutlined /> },
-    ]} />
-  );
+  const exportMenuItems = [
+    { key: 'pdf', label: 'Export as PDF', icon: <FilePdfOutlined /> },
+    { key: 'excel', label: 'Export as Excel', icon: <FileExcelOutlined /> },
+  ];
 
   return (
     <div className="">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-2">
         <Typography.Title level={3} className="mb-0">Reports</Typography.Title>
-        <Dropdown overlay={exportMenu} trigger={['click']}>
+        <Dropdown 
+          menu={{ items: exportMenuItems }}
+          trigger={['click']}
+        >
           <Button type="primary">
             Export <DownloadOutlined />
           </Button>

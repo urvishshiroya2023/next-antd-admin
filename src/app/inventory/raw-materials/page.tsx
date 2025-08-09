@@ -2,6 +2,7 @@
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useI18n } from "@/contexts/I18nContext";
+import { Card } from "@/ui";
 import {
   DatabaseOutlined,
   DeleteOutlined,
@@ -16,14 +17,13 @@ import {
 } from "@ant-design/icons";
 import {
   Button,
-  Card,
+
   Col,
   DatePicker,
   Dropdown,
   Form,
   Input,
   InputNumber,
-  Menu,
   message,
   Modal,
   Progress,
@@ -39,8 +39,6 @@ import { useState } from "react";
 
 const { Search } = Input;
 const { Option } = Select;
-const { RangePicker } = DatePicker;
-const { TabPane } = Tabs;
 
 // Mock data for raw materials
 const rawMaterialsData = [
@@ -112,7 +110,7 @@ const statuses = ['In Stock', 'Low Stock', 'Out of Stock', 'On Order'];
 export default function RawMaterialsPage() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTransactionModalVisible, setIsTransactionModalVisible] = useState(false);
-  const [activeTab, setActiveTab] = useState('materials');
+  const [, setActiveTab] = useState('materials');
   const [searchText, setSearchText] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
@@ -120,8 +118,8 @@ export default function RawMaterialsPage() {
   const [form] = Form.useForm();
   const [transactionForm] = Form.useForm();
   const router = useRouter();
-  const { user } = useAuth();
-  const { t } = useI18n();
+  const {} = useAuth();
+  const {} = useI18n();
 
   const showModal = () => {
     form.resetFields();
@@ -179,16 +177,18 @@ export default function RawMaterialsPage() {
     router.push(`/inventory/raw-materials/${id}`);
   };
 
+  const handleDateRangeChange = (dates: any, dateStrings: [string, string]) => {
+    console.log('Selected date range:', dateStrings);
+  };
+
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'In Stock':
+    switch (status.toLowerCase()) {
+      case 'in stock':
         return 'success';
-      case 'Low Stock':
+      case 'low stock':
         return 'warning';
-      case 'Out of Stock':
+      case 'out of stock':
         return 'error';
-      case 'On Order':
-        return 'processing';
       default:
         return 'default';
     }
@@ -232,21 +232,29 @@ export default function RawMaterialsPage() {
     {
       title: 'Stock',
       key: 'stock',
-      render: (record: any) => (
-        <div>
-          <div className="font-medium">{record.currentStock} {record.unit}</div>
-          <div className="text-xs text-gray-500">Min: {record.minStockLevel} {record.unit}</div>
-          <Progress 
-            percent={Math.min((record.currentStock / (record.minStockLevel * 1.5)) * 100, 100)} 
-            size="small" 
-            showInfo={false}
-            status={
-              record.currentStock < record.minStockLevel * 0.3 ? 'exception' :
-              record.currentStock < record.minStockLevel ? 'warning' : 'success'
-            }
-          />
-        </div>
-      ),
+      render: (record: any) => {
+        const percent = Math.min((record.currentStock / (record.minStockLevel * 1.5)) * 100, 100);
+        let status: 'success' | 'active' | 'exception' = 'success';
+        
+        if (record.currentStock < record.minStockLevel * 0.3) {
+          status = 'exception';
+        } else if (record.currentStock < record.minStockLevel) {
+          status = 'active';
+        }
+        
+        return (
+          <div>
+            <div className="font-medium">{record.currentStock} {record.unit}</div>
+            <div className="text-xs text-gray-500">Min: {record.minStockLevel} {record.unit}</div>
+            <Progress 
+              percent={percent} 
+              size="small" 
+              showInfo={false}
+              status={status}
+            />
+          </div>
+        );
+      },
       sorter: (a: any, b: any) => a.currentStock - b.currentStock,
     },
     {
@@ -258,11 +266,10 @@ export default function RawMaterialsPage() {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      render: (status: string) => (
-        <Tag color={getStatusColor(status)}>
-          {status}
-        </Tag>
-      ),
+      render: (status: string) => {
+        const color = getStatusColor(status);
+        return <Tag color={color}>{status}</Tag>;
+      },
       filters: statuses.map(status => ({ text: status, value: status })),
       onFilter: (value: any, record: any) => record.status === value,
     },
@@ -277,23 +284,40 @@ export default function RawMaterialsPage() {
       key: 'actions',
       render: (_: any, record: any) => (
         <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="view" icon={<EyeOutlined />} onClick={() => handleViewMaterial(record.id)}>
-                View Details
-              </Menu.Item>
-              <Menu.Item key="edit" icon={<EditOutlined />}>
-                Edit
-              </Menu.Item>
-              <Menu.Item key="transaction" icon={<HistoryOutlined />} onClick={() => showTransactionModal(record)}>
-                Record Transaction
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item key="delete" icon={<DeleteOutlined />} danger>
-                Delete
-              </Menu.Item>
-            </Menu>
-          }
+          menu={{
+            items: [
+              {
+                key: 'view',
+                label: 'View Details',
+                icon: <EyeOutlined />,
+                onClick: () => handleViewMaterial(record.id)
+              },
+              {
+                key: 'edit',
+                label: 'Edit',
+                icon: <EditOutlined />
+              },
+              {
+                key: 'transaction',
+                label: 'Record Transaction',
+                icon: <HistoryOutlined />,
+                onClick: () => showTransactionModal(record)
+              },
+              {
+                type: 'divider'
+              },
+              {
+                key: 'delete',
+                label: 'Delete',
+                icon: <DeleteOutlined />,
+                danger: true,
+                onClick: () => {
+                  // Add delete confirmation logic here
+                  console.log('Delete item:', record.id);
+                }
+              }
+            ]
+          }}
           trigger={['click']}
         >
           <Button type="text" icon={<MoreOutlined />} />
@@ -388,90 +412,100 @@ export default function RawMaterialsPage() {
       </div>
 
       <Card>
-        <Tabs defaultActiveKey="materials" onChange={setActiveTab}>
-          <TabPane tab="Materials" key="materials">
-            <div className="flex flex-wrap gap-4 mb-4">
-              <div className="flex-1 min-w-[250px]">
-                <Search 
-                  placeholder="Search materials..." 
-                  allowClear 
-                  enterButton={<SearchOutlined />} 
-                  onSearch={(value) => setSearchText(value)}
-                  onChange={(e) => setSearchText(e.target.value)}
-                />
-              </div>
-              <div className="flex gap-2 flex-wrap">
-                <Select
-                  placeholder="Filter by Type"
-                  allowClear
-                  style={{ width: 150 }}
-                  onChange={(value) => setTypeFilter(value || 'all')}
-                >
-                  <Option value="all">All Types</Option>
-                  {materialTypes.map(type => (
-                    <Option key={type} value={type}>
-                      {type}
-                    </Option>
-                  ))}
-                </Select>
-                <Select
-                  placeholder="Filter by Status"
-                  allowClear
-                  style={{ width: 150 }}
-                  onChange={(value) => setStatusFilter(value || 'all')}
-                >
-                  <Option value="all">All Statuses</Option>
-                  {statuses.map(status => (
-                    <Option key={status} value={status}>{status}</Option>
-                  ))}
-                </Select>
-                <Button icon={<FilterOutlined />}>
-                  More Filters
-                </Button>
-              </div>
-            </div>
+        <Tabs
+          defaultActiveKey="materials"
+          onChange={setActiveTab}
+          items={[
+            {
+              key: 'materials',
+              label: 'Materials',
+              children: (
+                <>
+                  <div className="flex flex-wrap gap-4 mb-4">
+                    <div className="flex-1 min-w-[250px]">
+                      <Search 
+                        placeholder="Search materials..." 
+                        allowClear 
+                        enterButton={<SearchOutlined />} 
+                        onSearch={(value) => setSearchText(value)}
+                        onChange={(e) => setSearchText(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex gap-2 flex-wrap">
+                      <Select
+                        placeholder="Filter by Type"
+                        allowClear
+                        style={{ width: 150 }}
+                        onChange={(value) => setTypeFilter(value || 'all')}
+                      >
+                        <Option value="all">All Types</Option>
+                        {materialTypes.map(type => (
+                          <Option key={type} value={type}>
+                            {type}
+                          </Option>
+                        ))}
+                      </Select>
+                      <Select
+                        placeholder="Filter by Status"
+                        allowClear
+                        style={{ width: 150 }}
+                        onChange={(value) => setStatusFilter(value || 'all')}
+                      >
+                        <Option value="all">All Statuses</Option>
+                        {statuses.map(status => (
+                          <Option key={status} value={status}>{status}</Option>
+                        ))}
+                      </Select>
+                      <Button icon={<FilterOutlined />}>
+                        More Filters
+                      </Button>
+                    </div>
+                  </div>
 
-            <Table 
-              columns={materialColumns} 
-              dataSource={filteredMaterials} 
-              rowKey="id"
-              scroll={{ x: 1300 }}
-              pagination={{
-                pageSize: 10,
-                showSizeChanger: true,
-                showQuickJumper: true,
-                showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} materials`,
-              }}
-            />
-          </TabPane>
-          
-          <TabPane tab="Transactions" key="transactions">
-            <div className="flex justify-between items-center mb-4">
-              <div className="flex-1 max-w-md">
-                <Search 
-                  placeholder="Search transactions..." 
-                  allowClear 
-                  enterButton={<SearchOutlined />} 
-                  onSearch={(value) => setSearchText(value)}
-                  style={{ width: '100%' }}
-                />
-              </div>
-              <RangePicker />
-            </div>
-            
-            <Table 
-              columns={transactionColumns} 
-              dataSource={transactionData} 
-              rowKey="id"
-              scroll={{ x: 1000 }}
-              pagination={{
-                pageSize: 10,
-                showSizeChanger: true,
-                showQuickJumper: true,
-              }}
-            />
-          </TabPane>
-        </Tabs>
+                  <Table 
+                    columns={materialColumns} 
+                    dataSource={filteredMaterials} 
+                    rowKey="id"
+                    scroll={{ x: 1300 }}
+                    pagination={{
+                      pageSize: 10,
+                      showSizeChanger: true,
+                      showQuickJumper: true,
+                      showTotal: (total: number, [from, to]: [number, number]) => {
+                        // This function must return a ReactNode
+                        return <span>{from}-{to} of {total} materials</span>;
+                      },
+                    }}
+                  />
+                </>
+              )
+            },
+            {
+              key: 'transactions',
+              label: 'Transactions',
+              children: (
+                <>
+                  <div className="flex justify-between items-center mb-4">
+                    <div className="text-lg font-medium">Material Transactions</div>
+                    <DatePicker.RangePicker onChange={handleDateRangeChange} />
+                  </div>
+                  
+                  <Table 
+                    columns={transactionColumns} 
+                    dataSource={transactionData} 
+                    rowKey="id"
+                    scroll={{ x: 1000 }}
+                    pagination={{
+                      pageSize: 10,
+                      showSizeChanger: true,
+                      showQuickJumper: true,
+                    }}
+                  />
+                </>
+              )
+            }
+          ]}
+        />
       </Card>
 
       {/* Add/Edit Material Modal */}

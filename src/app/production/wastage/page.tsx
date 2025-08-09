@@ -1,11 +1,12 @@
 "use client";
 
 import { useI18n } from "@/contexts/I18nContext";
+import { Card } from "@/ui";
 import { EditOutlined, FileExcelOutlined, FilePdfOutlined, FilterOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
-import { App, Button, Card, Col, DatePicker, Form, Input, InputNumber, Modal, Row, Select, Space, Table, Tabs, Tag, Tooltip, Typography } from "antd";
+import { App, Button, Col, DatePicker, Form, Input, InputNumber, Modal, Row, Select, Space, Table, Tabs, Tag, Tooltip, Typography } from "antd";
+import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import dayjs from "dayjs";
 
 const { Search } = Input;
 const { RangePicker } = DatePicker;

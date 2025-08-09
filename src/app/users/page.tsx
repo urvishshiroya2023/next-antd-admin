@@ -2,8 +2,9 @@
 
 import { withRouteGuard } from "@/components/RouteGuard";
 import { useAuth } from "@/contexts/AuthContext";
+import { Card } from "@/ui";
 import { DeleteOutlined, EditOutlined, UserOutlined } from "@ant-design/icons";
-import { Avatar, Button, Card, Space, Table, Tag } from "antd";
+import { Avatar, Button, Space, Table, Tag } from "antd";
 
 const mockUsers = [
   {

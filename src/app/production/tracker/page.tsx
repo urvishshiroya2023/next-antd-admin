@@ -1,8 +1,9 @@
 "use client";
 
 import { useI18n } from "@/contexts/I18nContext";
+import { Card } from "@/ui";
 import { CheckCircleOutlined, ClockCircleOutlined, FilterOutlined, PlusOutlined, SearchOutlined, SyncOutlined } from "@ant-design/icons";
-import { Button, Card, DatePicker, Divider, Form, Input, Modal, Progress, Select, Space, Steps, Table, Tabs, Tag, Typography } from "antd";
+import { Button, DatePicker, Divider, Form, Input, Modal, Progress, Select, Space, Steps, Table, Tabs, Tag, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -268,7 +269,7 @@ export default function ProductionTrackerPage() {
 
   return (
     <div className="">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-2">
         <Title level={3} className="mb-0">Production Tracker</Title>
         <Button type="primary" icon={<PlusOutlined />}>
           New Production Order

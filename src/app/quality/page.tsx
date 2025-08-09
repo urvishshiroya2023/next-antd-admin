@@ -1,8 +1,9 @@
 "use client";
 
 import { useI18n } from "@/contexts/I18nContext";
+import { Card } from "@/ui";
 import { CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined, FilterOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
-import { Badge, Button, Card, DatePicker, Dropdown, Input, Menu, Select, Space, Table, Tabs, Tag, Typography } from "antd";
+import { Badge, Button, DatePicker, Dropdown, Input, Select, Space, Table, Tabs, Tag, Typography } from "antd";
 import type { Dayjs } from 'dayjs';
 import React, { useState } from "react";
 
@@ -123,7 +124,7 @@ const QualityPage = () => {
 
   return (
     <div className="">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-2">
         <Title level={3} className="mb-0">Quality Control</Title>
         <Button type="primary" icon={<PlusOutlined />}>
           New Quality Check
@@ -148,12 +149,12 @@ const QualityPage = () => {
               className="w-full md:w-auto"
             />
             <Dropdown
-              overlay={
-                <Menu>
-                  <Menu.Item key="export-pdf">Export as PDF</Menu.Item>
-                  <Menu.Item key="export-excel">Export as Excel</Menu.Item>
-                </Menu>
-              }
+              menu={{
+                items: [
+                  { key: 'export-pdf', label: 'Export as PDF' },
+                  { key: 'export-excel', label: 'Export as Excel' }
+                ]
+              }}
               trigger={['click']}
             >
               <Button icon={<FilterOutlined />}>

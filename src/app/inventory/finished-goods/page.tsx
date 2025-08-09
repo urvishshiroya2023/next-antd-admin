@@ -1,8 +1,9 @@
 "use client";
 
 import { useI18n } from "@/contexts/I18nContext";
+import { Card } from "@/ui";
 import { EditOutlined, EyeOutlined, FilterOutlined, GoldOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Form, Input, InputNumber, Modal, Row, Select, Space, Statistic, Table, Tabs, Tag, Tooltip, Typography } from "antd";
+import { Button, Col, Form, Input, InputNumber, Modal, Row, Select, Space, Statistic, Table, Tabs, Tag, Tooltip, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

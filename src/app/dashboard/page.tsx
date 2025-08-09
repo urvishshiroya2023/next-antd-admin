@@ -2,18 +2,31 @@
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useI18n } from "@/contexts/I18nContext";
+import {
+  Button,
+  Card,
+  Col,
+  Row,
+  Space,
+  StatisticCard,
+  Toast
+} from "@/ui";
 import { useLocationManager } from "@/utils/locationManager";
 import {
   AlertOutlined,
   CheckCircleOutlined,
   ClockCircleOutlined,
-  FileTextOutlined,
+  FormOutlined,
   GoldOutlined,
   LineChartOutlined,
+  PlusOutlined,
   ShoppingCartOutlined
 } from "@ant-design/icons";
-import { Button, Card, Col, Progress, Row, Space, Statistic, Table, Tag, Typography } from "antd";
-import React from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Progress, Table, Tag, Typography } from "antd";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
 
 const { Title, Text } = Typography;
 
@@ -39,10 +52,80 @@ const inventoryLevels = [
   { material: 'Platinum', current: 180, min: 100, unit: 'g' },
 ];
 
+// Define form data type first
+type ProductFormData = {
+  name: string;
+  category: string;
+  price: number;
+  inStock: boolean;
+  status: string;
+  description: string;
+  terms: boolean;
+};
+
+// Form validation schema
+const productSchema = yup.object({
+  name: yup.string().required('Product name is required'),
+  category: yup.string().required('Category is required'),
+  price: yup.number().required('Price is required').positive('Price must be positive'),
+  inStock: yup.boolean().required('Please specify if the product is in stock'),
+  status: yup.string().required('Please select a status'),
+  description: yup.string().default('').max(500, 'Description must be less than 500 characters'),
+  terms: yup.boolean().oneOf([true], 'You must accept the terms and conditions').required()
+}).required();
+
+// Infer the form values type from the schema
+type FormValues = yup.InferType<typeof productSchema>;
+
 export default function DashboardPage() {
   const { user } = useAuth();
   const { t } = useI18n();
   const locationManager = useLocationManager();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedView, setSelectedView] = useState('grid');
+  const [selectedStatus, setSelectedStatus] = useState('all');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  const { control, handleSubmit, reset, formState: { errors } } = useForm<ProductFormData>({
+    resolver: yupResolver(productSchema),
+    defaultValues: {
+      name: '',
+      category: '',
+      price: 0,
+      inStock: true,
+      status: 'draft',
+      description: '',
+      terms: false
+    }
+  });
+
+  const statusOptions = [
+    { label: 'Draft', value: 'draft' },
+    { label: 'Published', value: 'published' },
+    { label: 'Archived', value: 'archived' }
+  ];
+
+  const categoryOptions = [
+    { label: 'Electronics', value: 'electronics' },
+    { label: 'Clothing', value: 'clothing' },
+    { label: 'Books', value: 'books' },
+    { label: 'Home & Kitchen', value: 'home' },
+    { label: 'Beauty', value: 'beauty' },
+  ];
+
+  const onSubmit = (data: ProductFormData) => {
+    console.log('Form submitted:', data);
+    Toast.success('Success', 'Product has been saved successfully!');
+    handleCloseModal();
+    handleCloseDrawer();
+    reset();
+  };
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+  const handleOpenDrawer = () => setIsDrawerOpen(true);
+  const handleCloseDrawer = () => setIsDrawerOpen(false);
 
   React.useEffect(() => {
     locationManager.setCurrentLocation("/dashboard");
@@ -95,102 +178,81 @@ export default function DashboardPage() {
 
   return (
     <div className="">
-      <div className="mb-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <Title level={2} className="!mb-2">Production Dashboard</Title>
-            <Text type="secondary">
-              Welcome back, {user?.name}! Here's what's happening with your production.
-            </Text>
-          </div>
-          <div>
-            <Button type="primary" icon={<FileTextOutlined />} className="mr-2">
-              New Job
-            </Button>
-            <Button icon={<LineChartOutlined />}>
-              View Reports
-            </Button>
-          </div>
-        </div>
+      <div className="flex justify-between items-center mb-6">
+        <Title level={2}>Dashboard</Title>
+        <Space>
+          <Button variant="primary" icon={<PlusOutlined />} onClick={handleOpenModal}>
+            Add Product (Modal)
+          </Button>
+          <Button variant="primary" icon={<FormOutlined />} onClick={handleOpenDrawer}>
+            Add Product (Drawer)
+          </Button>
+        </Space>
       </div>
 
-      {/* Stats Overview */}
+      {/* Quick Stats */}
       <Row gutter={[16, 16]} className="mb-6">
         <Col xs={24} sm={12} lg={6}>
-          <Card styles={{ body: { padding: '12px' } }}>
-            <Statistic
-              title="Active Jobs"
-              value={24}
-              prefix={<ClockCircleOutlined />}
-              valueStyle={{ color: '#1890ff' }}
-            />
-          </Card>
+          <StatisticCard
+            title="Active Jobs"
+            value={24}
+            prefix={<ClockCircleOutlined />}
+            valueStyle={{ color: '#1890ff' }}
+          />
         </Col>
         <Col xs={24} sm={12} lg={6}>
-        <Card styles={{ body: { padding: '12px' } }}>
-            <Statistic
-              title={t.dashboard.orders}
-              value={93}
-              prefix={<ShoppingCartOutlined />}
-              valueStyle={{ color: "#cf1322" }}
-            />
-          </Card>
+          <StatisticCard
+            title={t.dashboard.orders}
+            value={93}
+            prefix={<ShoppingCartOutlined />}
+            valueStyle={{ color: "#cf1322" }}
+          />
         </Col>
         <Col xs={24} sm={12} lg={6}>
-        <Card styles={{ body: { padding: '12px' } }}>
-            <Statistic
-              title={t.dashboard.revenue}
-              value={112893}
-              prefix={<GoldOutlined />}
-              precision={2}
-              valueStyle={{ color: "#3f8600" }}
-            />
-          </Card>
+          <StatisticCard
+            title={t.dashboard.revenue}
+            value={112893}
+            prefix={<GoldOutlined />}
+            precision={2}
+            valueStyle={{ color: "#3f8600" }}
+          />
         </Col>
         <Col xs={24} sm={12} lg={6}>
-        <Card styles={{ body: { padding: '12px' } }}>
-            <Statistic
-              title={t.dashboard.pageViews}
-              value={8846}
-              prefix={<LineChartOutlined />}
-              valueStyle={{ color: "#1890ff" }}
-            />
-          </Card>
+          <StatisticCard
+            title={t.dashboard.pageViews}
+            value={8846}
+            prefix={<LineChartOutlined />}
+            valueStyle={{ color: "#1890ff" }}
+          />
         </Col>
       </Row>
 
       <Row gutter={[16, 16]} className="mb-6">
         <Col xs={24} sm={12} lg={6}>
-        <Card styles={{ body: { padding: '12px' } }}>
-            <Statistic
-              title="Materials Low in Stock"
-              value={3}
-              prefix={<AlertOutlined />}
-              valueStyle={{ color: "#faad14" }}
-            />
-          </Card>
+          <StatisticCard
+            title="Materials Low in Stock"
+            value={3}
+            prefix={<AlertOutlined />}
+            valueStyle={{ color: "#faad14" }}
+          />
         </Col>
         <Col xs={24} sm={12} lg={6}>
-        <Card styles={{ body: { padding: '12px' } }}>
-            <Statistic
-              title="Completed Jobs (This Month)"
-              value={18}
-              prefix={<CheckCircleOutlined />}
-              valueStyle={{ color: "#52c41a" }}
-            />
-          </Card>
+          <StatisticCard
+            title="Completed Jobs (This Month)"
+            value={18}
+            prefix={<CheckCircleOutlined />}
+            valueStyle={{ color: "#52c41a" }}
+          />
         </Col>
         <Col xs={24} sm={12} lg={6}>
-        <Card styles={{ body: { padding: '12px' } }}>
-            <Statistic
-              title="Gold Stock"
-              value={250}
-              precision={2}
-              suffix="g"
-              prefix={<GoldOutlined />}
-              valueStyle={{ color: "#722ed1" }}
-            />
-          </Card>
+          <StatisticCard
+            title="Gold Stock"
+            value={250}
+            precision={2}
+            suffix="g"
+            prefix={<GoldOutlined />}
+            valueStyle={{ color: "#722ed1" }}
+          />
         </Col>
       </Row>
 
@@ -261,20 +323,20 @@ export default function DashboardPage() {
         </Col>
       </Row>
 
-      <Row gutter={[16, 16]}>
+      <Row className="mt-6" gutter={[16, 16]}>
         <Col xs={24} lg={12}>
-          <Card title={t.dashboard.recentActivity} className="h-64" hoverable>
+          <Card title={t.dashboard.recentActivity} className="h-64" >
             <p>{t.dashboard.noRecentActivity}</p>
           </Card>
         </Col>
         <Col xs={24} lg={12}>
-          <Card title={t.dashboard.quickActions} className="h-64" hoverable>
+          <Card title={t.dashboard.quickActions} className="h-64" >
             <Space direction="vertical" className="w-full">
-              <Button type="primary" block>
+              <Button variant="primary" block>
                 {t.dashboard.createNewUser}
               </Button>
-              <Button block>{t.dashboard.viewReports}</Button>
-              <Button block>{t.dashboard.manageSettings}</Button>
+              <Button variant="default" block>{t.dashboard.viewReports}</Button>
+              <Button variant="default" block>{t.dashboard.manageSettings}</Button>
             </Space>
           </Card>
         </Col>
